@@ -1,0 +1,172 @@
+
+> commerce-one-review-pilot@0.1.0 check
+> npm run lint && npm run typecheck && npm test && npm run test:e2e
+
+
+> commerce-one-review-pilot@0.1.0 lint
+> eslint src tests public scripts e2e playwright.config.ts
+
+
+> commerce-one-review-pilot@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> commerce-one-review-pilot@0.1.0 test
+> npm run build && node --test dist/tests/*.test.js
+
+
+> commerce-one-review-pilot@0.1.0 build
+> tsc -p tsconfig.json && node scripts/build.mjs
+
+TypeScript compiled; static assets copied to dist/public.
+TAP version 13
+# Subtest: request is unique per order, with two distinct product review slots
+ok 1 - request is unique per order, with two distinct product review slots
+  ---
+  duration_ms: 21.060083
+  type: 'test'
+  ...
+# Subtest: holds ineligible order SYN-O-PARTIAL
+ok 2 - holds ineligible order SYN-O-PARTIAL
+  ---
+  duration_ms: 6.288084
+  type: 'test'
+  ...
+# Subtest: holds ineligible order SYN-O-CANCELLED
+ok 3 - holds ineligible order SYN-O-CANCELLED
+  ---
+  duration_ms: 2.811458
+  type: 'test'
+  ...
+# Subtest: holds ineligible order SYN-O-RETURNED
+ok 4 - holds ineligible order SYN-O-RETURNED
+  ---
+  duration_ms: 2.679792
+  type: 'test'
+  ...
+# Subtest: holds ineligible order SYN-O-UNPAID
+ok 5 - holds ineligible order SYN-O-UNPAID
+  ---
+  duration_ms: 3.263667
+  type: 'test'
+  ...
+# Subtest: tampering, wrong buyer, other order and unrelated product never create reviews
+ok 6 - tampering, wrong buyer, other order and unrelated product never create reviews
+  ---
+  duration_ms: 7.2475
+  type: 'test'
+  ...
+# Subtest: exact replay is idempotent per order/product; changed content conflicts; consumption allows only exact retry
+ok 7 - exact replay is idempotent per order/product; changed content conflicts; consumption allows only exact retry
+  ---
+  duration_ms: 27.644708
+  type: 'test'
+  ...
+# Subtest: expiry is enforced at exact deadline even for replays; changed order state blocks saved links
+ok 8 - expiry is enforced at exact deadline even for replays; changed order state blocks saved links
+  ---
+  duration_ms: 17.869083
+  type: 'test'
+  ...
+# Subtest: input validation rejects malformed ratings, text, huge/empty text and extra fields
+ok 9 - input validation rejects malformed ratings, text, huge/empty text and extra fields
+  ---
+  duration_ms: 17.630833
+  type: 'test'
+  ...
+# Subtest: public widget exposes only its product and safe fields, and labels mock purchase confirmation
+ok 10 - public widget exposes only its product and safe fields, and labels mock purchase confirmation
+  ---
+  duration_ms: 18.200417
+  type: 'test'
+  ...
+# Subtest: import preserves provenance, isolates mapping/ambiguity, never verifies purchase and is repeatable
+ok 11 - import preserves provenance, isolates mapping/ambiguity, never verifies purchase and is repeatable
+  ---
+  duration_ms: 11.775792
+  type: 'test'
+  ...
+# Subtest: same source/id with changed content or product is quarantined without overwrite; rejected rights are isolated
+ok 12 - same source/id with changed content or product is quarantined without overwrite; rejected rights are isolated
+  ---
+  duration_ms: 60.30825
+  type: 'test'
+  ...
+# Subtest: restart retains uniqueness, token verification and import quarantine; second process cannot open store
+ok 13 - restart retains uniqueness, token verification and import quarantine; second process cannot open store
+  ---
+  duration_ms: 28.630334
+  type: 'test'
+  ...
+# Subtest: transaction failure rolls back memory and disk; unique-key invariant rejects duplicate inserts
+ok 14 - transaction failure rolls back memory and disk; unique-key invariant rejects duplicate inserts
+  ---
+  duration_ms: 9.334875
+  type: 'test'
+  ...
+# Subtest: failed disk write leaves request state untouched and a retry succeeds
+ok 15 - failed disk write leaves request state untouched and a retry succeeds
+  ---
+  duration_ms: 14.500583
+  type: 'test'
+  ...
+# Subtest: HTTP: auth boundaries, concurrent requests and product writes, projection and import rerun
+ok 16 - HTTP: auth boundaries, concurrent requests and product writes, projection and import rerun
+  ---
+  duration_ms: 221.948916
+  type: 'test'
+  ...
+# Subtest: HTTP security headers and malformed requests
+ok 17 - HTTP security headers and malformed requests
+  ---
+  duration_ms: 25.019042
+  type: 'test'
+  ...
+# Subtest: HTTP: split UTF-8 request preserves Korean text and exact replay semantics
+ok 18 - HTTP: split UTF-8 request preserves Korean text and exact replay semantics
+  ---
+  duration_ms: 23.620667
+  type: 'test'
+  ...
+# Subtest: default runtime refuses outbound fetch, sockets, TLS, HTTP(S), HTTP2, DNS and UDP before dialing
+ok 19 - default runtime refuses outbound fetch, sockets, TLS, HTTP(S), HTTP2, DNS and UDP before dialing
+  ---
+  duration_ms: 77.032875
+  type: 'test'
+  ...
+# Subtest: killed process recovers acknowledged records after explicit stale-lock recovery; duplicate retry stays unique
+ok 20 - killed process recovers acknowledged records after explicit stale-lock recovery; duplicate retry stays unique
+  ---
+  duration_ms: 290.671083
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 372.903958
+
+> commerce-one-review-pilot@0.1.0 test:e2e
+> playwright test
+
+
+Running 8 tests using 1 worker
+
+(node:10391) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › e2e/pilot.spec.ts:33:1 › request, repeat click, write/save, product widget, admin and import provenance (1.4s)
+  ✓  2 [desktop] › e2e/pilot.spec.ts:64:1 › invalid/wrong buyer/missing links and held orders show recoverable errors (704ms)
+  ✓  3 [desktop] › e2e/pilot.spec.ts:73:1 › widget outage and script failure leave simulated cart and checkout independent (420ms)
+  ✓  4 [desktop] › e2e/pilot.spec.ts:82:1 › expired link shows server expiry without adding a review (388ms)
+(node:10444) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [mobile] › e2e/pilot.spec.ts:33:1 › request, repeat click, write/save, product widget, admin and import provenance (1.5s)
+  ✓  6 [mobile] › e2e/pilot.spec.ts:64:1 › invalid/wrong buyer/missing links and held orders show recoverable errors (706ms)
+  ✓  7 [mobile] › e2e/pilot.spec.ts:73:1 › widget outage and script failure leave simulated cart and checkout independent (450ms)
+  ✓  8 [mobile] › e2e/pilot.spec.ts:82:1 › expired link shows server expiry without adding a review (390ms)
+
+  8 passed (8.1s)

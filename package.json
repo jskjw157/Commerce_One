@@ -1,0 +1,26 @@
+{
+  "name": "commerce-one-review-pilot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/build.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint src tests public scripts e2e playwright.config.ts",
+    "test": "npm run build && node --test dist/tests/*.test.js",
+    "test:e2e": "playwright test",
+    "start": "node --import ./scripts/network-guard.mjs dist/src/main.js",
+    "check": "npm run lint && npm run typecheck && npm test && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^26.6.6",
+    "eslint": "^10.14.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1"
+  }
+}
